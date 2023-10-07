@@ -9,6 +9,8 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import NotFound from "./pages/notFound/NotFound";
 import Register from "./pages/register/Register";
+import Appointments from "./pages/appointments/Appointments";
+import NewAppointment from "./pages/newAppointment/NewAppointment";
 
 function App() {
   return (
@@ -19,6 +21,11 @@ function App() {
           <Route path={RouterEnum.home} element={<Home />} />
           <Route path={RouterEnum.login} element={<Login />} />
           <Route path={RouterEnum.register} element={<Register />} />
+          <Route path={RouterEnum.appointments} element={<Appointments />} />
+          <Route
+            path={RouterEnum.newAppointments}
+            element={<NewAppointment />}
+          />
           <Route path={RouterEnum.notFound} element={<NotFound />} />
         </Routes>
       </main>

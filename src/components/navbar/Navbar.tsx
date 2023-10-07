@@ -5,15 +5,23 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <NavLink className="navbar__navlink" to={RouterEnum.home}>
-        Home
+        Strona główna
+      </NavLink>
+
+      <NavLink className="navbar__navlink" to={RouterEnum.appointments}>
+        Moje wizyty
+      </NavLink>
+
+      <NavLink className="navbar__navlink" to={RouterEnum.newAppointments}>
+        Nowa wizyta
       </NavLink>
 
       <NavLink className="navbar__navlink" to={RouterEnum.login}>
-        Log in
+        Zaloguj się
       </NavLink>
 
       <NavLink className="navbar__navlink" to={RouterEnum.register}>
-        Sign up
+        Zarejesteruj się
       </NavLink>
     </nav>
   );
