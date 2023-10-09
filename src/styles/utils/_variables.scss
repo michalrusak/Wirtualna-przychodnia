@@ -2,3 +2,14 @@ $font-size-basic: 16px;
 $color-font-black: black;
 $color-font-white: white;
 $color-font-gray: rgb(226, 207, 207);
+
+$nav-color: aquamarine;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);

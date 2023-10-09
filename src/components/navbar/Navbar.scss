@@ -1,0 +1,144 @@
+@import "../../styles/main.scss";
+.navbar {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: $nav-color;
+  min-height: 40px;
+  height: 8vh;
+  width: 100%;
+  &__button {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    height: 35px;
+    width: 45px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 99;
+  }
+
+  &__span {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: black;
+    transition: top 0.2s 0.2s, bottom 0.2s 0.2s, opacity 0.2s 0.2s,
+      transform 0.2s 0.4s;
+
+    &:nth-child(1) {
+      top: 0;
+    }
+    &:nth-child(2) {
+      top: calc(50% - 4px);
+    }
+    &:nth-child(3) {
+      bottom: 0;
+    }
+
+    &--active:nth-child(1) {
+      top: calc(50% - 4px);
+      transform: rotate(45deg);
+    }
+    &--active:nth-child(2) {
+      opacity: 0;
+    }
+    &--active:nth-child(3) {
+      bottom: calc(50% - 4px);
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+    height: 100%;
+  }
+
+  &__list-item {
+    height: 100%;
+  }
+
+  &__navlink {
+    @extend .flex-center;
+    padding: 10px 20px;
+    height: 100%;
+    cursor: pointer;
+    &.active,
+    &.active:hover {
+      background-color: darken($color: $nav-color, $amount: 30%);
+    }
+
+    &:hover {
+      background-color: lighten($color: $nav-color, $amount: 10%);
+    }
+  }
+}
+
+.navbar-mobile {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  transform: translateX(-300px);
+  transition: transform 0.5s ease-in-out;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  max-width: 100%;
+  background-color: $nav-color;
+
+  &--active {
+    transform: translateX(0);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+    height: 100%;
+  }
+
+  &__list-item {
+    width: 100%;
+  }
+
+  &__navlink {
+    @extend .flex-center;
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    &.active,
+    &.active:hover {
+      background-color: darken($color: $nav-color, $amount: 30%);
+    }
+
+    &:hover {
+      background-color: lighten($color: $nav-color, $amount: 10%);
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .navbar {
+    &__button {
+      display: block;
+    }
+
+    &__list {
+      display: none;
+    }
+  }
+
+  .navbar-mobile {
+    display: flex;
+  }
+}
