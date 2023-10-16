@@ -7,7 +7,7 @@ const CalendarForm = (props: any) => {
 
   const today = new Date();
 
-  const handleSetHours = (e: ChangeEvent<HTMLInputElement>, i: number) => {
+  const handleSetDate = (e: ChangeEvent<HTMLInputElement>, i: number) => {
     if (e.target.checked) {
       setSelectedDate(
         new Date(currentDate.getFullYear(), currentDate.getMonth(), i)
@@ -149,7 +149,7 @@ const CalendarForm = (props: any) => {
             type="checkbox"
             id={`current${i}`}
             name={`current${i}`}
-            onChange={(e) => handleSetHours(e, i)}
+            onChange={(e) => handleSetDate(e, i)}
             checked={selectedDate.getDate() === i ? true : false}
           />
         </label>

@@ -1,0 +1,29 @@
+@import "../../styles/main.scss";
+
+.hour-form {
+  width: 300px;
+  &__hours {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__title {
+    text-align: center;
+  }
+  &__error {
+    text-align: center;
+  }
+  &__hour {
+    width: 100px;
+    padding: 10px;
+    text-align: center;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+    &--active {
+      background-color: $active-color;
+    }
+  }
+}
