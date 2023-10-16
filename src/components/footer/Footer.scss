@@ -1,0 +1,7 @@
+@import "../../styles/main.scss";
+.footer {
+  @extend .flex-center;
+  width: 100%;
+  height: 10vh;
+  background-color: $beige-color;
+}

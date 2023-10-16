@@ -1,7 +1,11 @@
+import "./Footer.scss";
+
 const Footer = () => {
   return (
     <>
-      <h3>Footer</h3>
+      <div className="footer">
+        <h4 className="footer__title">Wirtualna Przychodnia</h4>
+      </div>
     </>
   );
 };
