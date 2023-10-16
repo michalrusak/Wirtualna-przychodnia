@@ -1,0 +1,26 @@
+@import "../../styles/main.scss";
+
+.new-appointment {
+  width: 100vw;
+  max-width: 100%;
+  &__title {
+    text-align: center;
+    margin: 10px 0;
+  }
+  &__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, xs)) {
+  .new-appointment {
+    &__container {
+      overflow-x: scroll;
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+}

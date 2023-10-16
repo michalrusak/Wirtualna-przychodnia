@@ -1,0 +1,75 @@
+@import "../../styles/main.scss";
+
+$width-calendar: 600px;
+$height-row: 35px;
+
+.calendar {
+  width: $width-calendar;
+  height: 400px;
+  text-align: center;
+  &__current-date {
+    font-size: 1.2rem;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0;
+  }
+  &__button {
+    @include button($color: $color-font-white, $bgc: $button-bgc1);
+  }
+  &__grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  &__daysOfWeek {
+    display: flex;
+    flex-direction: row;
+    background-color: $beige-color;
+  }
+  &__dayOfWeek {
+    text-transform: uppercase;
+    width: calc($width-calendar / 7);
+    height: $height-row;
+    @extend .flex-center;
+  }
+  &__day {
+    width: calc($width-calendar / 7);
+    height: $height-row;
+    @extend .flex-center;
+    &--current {
+      cursor: pointer;
+      font-weight: bold;
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+    &--prev,
+    &--next,
+    &--disabled {
+      color: $disabled-color;
+      cursor: not-allowed;
+    }
+
+    &--active {
+      background-color: $active-color;
+    }
+    &--today {
+      color: $today-color;
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .calendar {
+    $width-calendar: 380px;
+    width: calc($width-calendar);
+
+    &__dayOfWeek,
+    &__day {
+      width: calc($width-calendar / 7);
+    }
+  }
+}

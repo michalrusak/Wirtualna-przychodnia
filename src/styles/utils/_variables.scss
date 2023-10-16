@@ -1,12 +1,20 @@
 $font-size-basic: 16px;
+
 $color-font-black: black;
 $color-font-white: white;
 $color-font-gray: rgb(226, 207, 207);
 
 $nav-color: aquamarine;
+$beige-color: beige;
+$button-bgc1: blue;
+$disabled-color: grey;
+$hover-color: aqua;
+$active-color: red;
+$today-color: blue;
 
 $grid-breakpoints: (
-  xs: 0,
+  xxs: 0,
+  xs: 400px,
   sm: 576px,
   md: 768px,
   lg: 992px,
