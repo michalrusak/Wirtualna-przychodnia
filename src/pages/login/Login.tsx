@@ -1,5 +1,83 @@
+import { Formik, Form, Field } from "formik";
+import "./Login.scss";
+import * as yup from "yup";
+import { UserLogin } from "../../models/user.model";
+
+const LoginSchema = () =>
+  yup.object().shape({
+    email: yup
+      .string()
+      .required("Email jest wymagany!")
+      .email("Email jest nie poprawny!"),
+
+    password: yup
+      .string()
+      .required("Hasło jest wymagane")
+      .min(8, "Minimum 8 znaków!")
+      .max(20, "Maksymalnie 20 znaków"),
+  });
+
 const Login = () => {
-  return <div>Login</div>;
+  const handleLogin = (values: UserLogin) => {
+    console.log(values);
+  };
+
+  return (
+    <div className="login">
+      <h1 className="login__title">Zaloguj się</h1>
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        validationSchema={LoginSchema}
+        onSubmit={(values) => {
+          handleLogin(values);
+        }}
+      >
+        {({ errors, touched }) => (
+          <Form action="" className="login__form">
+            <label htmlFor="email" className="login__label">
+              Email
+            </label>
+            <Field
+              type="email"
+              name="email"
+              id="email"
+              className="login__input"
+              placeholder="xyz@mail.com"
+            />
+            {errors.email && touched.email ? (
+              <div className="login__error">{errors.email}</div>
+            ) : null}
+            <label htmlFor="password" className="login__label">
+              Hasło
+            </label>
+            <Field
+              type="password"
+              name="password"
+              id="password"
+              className="login__input"
+              placeholder="********"
+            />
+            {errors.password && touched.password ? (
+              <div className="login__error">{errors.password}</div>
+            ) : null}
+            <Field
+              type="submit"
+              value="Zaloguj się"
+              className="login__submit"
+              id="login__button"
+            />
+            <p className="login__question">Nie masz konta?</p>
+            <a href="/register" className="login__redirect">
+              Załóż konto
+            </a>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
 };
 
 export default Login;

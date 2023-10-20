@@ -1,0 +1,41 @@
+@import "../../styles/main.scss";
+
+.login {
+  @extend .flex-center;
+  @extend .flex-center-page;
+  gap: 10px;
+
+  &__title {
+    color: $color-font-black;
+  }
+
+  &__form {
+    @extend .form;
+    width: 400px;
+    height: 400px;
+  }
+
+  &__label {
+    @extend .label;
+  }
+
+  &__input {
+    @extend .input;
+  }
+
+  &__error {
+    @extend .error;
+  }
+
+  &__submit {
+    @extend .submit;
+  }
+
+  &__question {
+    @extend .question;
+  }
+
+  &__redirect {
+    @include button($color-font-white, $button-bgc1);
+  }
+}
