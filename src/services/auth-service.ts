@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 // import { getFirestore } from "firebase/firestore";
 // import { getStorage } from "firebase/storage";
@@ -20,11 +21,8 @@ class AuthService {
   checkUserLogged() {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(this.auth, (user) => {
-        if (user) {
-          resolve(user);
-        } else {
-          reject(new Error("Użytkownik nie jest zalogowany"));
-        }
+        const isUserLogged = !!user;
+        resolve(isUserLogged);
       });
     });
   }
@@ -34,8 +32,6 @@ class AuthService {
       await signInWithPopup(this.auth, this.googleProvider);
       console.log("zalogowano google poprawnie");
     } catch (err) {
-      console.log("errror");
-
       console.error(err);
     }
   }
@@ -45,7 +41,7 @@ class AuthService {
       await signInWithEmailAndPassword(this.auth, email, password);
       return true;
     } catch (error) {
-      console.error("Błąd logowania:", error);
+      console.error(error);
       return false;
     }
   }
@@ -55,7 +51,17 @@ class AuthService {
       await createUserWithEmailAndPassword(this.auth, email, password);
       return true;
     } catch (error) {
-      console.error("Błąd rejestracji:", error);
+      console.error(error);
+      return false;
+    }
+  }
+
+  async logout() {
+    try {
+      await signOut(this.auth);
+      return true;
+    } catch (err) {
+      console.error(err);
       return false;
     }
   }

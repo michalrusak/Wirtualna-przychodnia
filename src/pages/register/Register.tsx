@@ -3,6 +3,8 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "./Register.scss";
 import { UserRegister } from "../../models/user.model";
+import authService from "../../services/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -23,12 +25,18 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const navigate = useNavigate();
   useEffect(() => {
-    document.title = "Sign Up | Blog App";
+    document.title = "Zarejestruj się | Wirtulna przychodnia";
   });
 
-  const handleRegister = (values: UserRegister) => {
-    console.log(values);
+  const handleRegister = async (values: UserRegister) => {
+    const result = await authService.register(values.email, values.password);
+    if (result) {
+      navigate("/");
+    } else {
+      alert("Wystąpił błąd rejestracji. Spróbuj ponownie.");
+    }
   };
 
   return (
@@ -55,7 +63,7 @@ const Register = () => {
               name="firstName"
               id="firstname"
               className="register__input"
-              placeholder="Firstname"
+              placeholder="Imię"
             />
             {errors.firstName && touched.firstName ? (
               <div className="register__error">{errors.firstName}</div>
@@ -67,7 +75,7 @@ const Register = () => {
               name="lastName"
               id="lastname"
               className="register__input"
-              placeholder="Lastname"
+              placeholder="Nazwisko"
             />
             {errors.lastName && touched.lastName ? (
               <div className="register__error">{errors.lastName}</div>

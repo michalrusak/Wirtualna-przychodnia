@@ -3,15 +3,19 @@ import authService from "../../services/auth-service";
 
 const Home = () => {
   useEffect(() => {
-    authService
-      .checkUserLogged()
-      .then((user) => {
-        console.log("zalogowano" + user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    document.title = "Strona główna | Wirtulna przychodnia";
+
+    isLogged();
   });
+
+  const isLogged = async () => {
+    const result = await authService.checkUserLogged();
+    if (result) {
+      console.log("zalogowany");
+    } else {
+      console.log("brak usera");
+    }
+  };
   return <div>Home</div>;
 };
 

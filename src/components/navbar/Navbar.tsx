@@ -1,13 +1,52 @@
 import { NavLink } from "react-router-dom";
 import { RouterEnum } from "../../enums/RouterEnum";
 import "./Navbar.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import authService from "../../services/auth-service";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isUser, setIsUser] = useState(false);
   const showNavbar = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    isLogged();
+  }, []);
+
+  const isLogged = async () => {
+    const result = await authService.checkUserLogged();
+    console.log(result);
+    if (result) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  };
+
+  const elements = !isUser ? (
+    <>
+      <li className="navbar__list-item">
+        <NavLink className="navbar__navlink" to={RouterEnum.login}>
+          Zaloguj się
+        </NavLink>
+      </li>
+      <li className="navbar__list-item">
+        <NavLink className="navbar__navlink" to={RouterEnum.register}>
+          Zarejesteruj się
+        </NavLink>
+      </li>
+    </>
+  ) : (
+    <>
+      <li className="navbar__list-item">
+        <NavLink className="navbar__navlink" to={RouterEnum.logout}>
+          Wyloguj
+        </NavLink>
+      </li>
+    </>
+  );
 
   return (
     <>
@@ -43,18 +82,7 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <ul className="navbar__list">
-          <li className="navbar__list-item">
-            <NavLink className="navbar__navlink" to={RouterEnum.login}>
-              Zaloguj się
-            </NavLink>
-          </li>
-          <li className="navbar__list-item">
-            <NavLink className="navbar__navlink" to={RouterEnum.register}>
-              Zarejesteruj się
-            </NavLink>
-          </li>
-        </ul>
+        <ul className="navbar__list">{elements}</ul>
       </nav>
 
       <nav className={`navbar-mobile ${isOpen ? "navbar-mobile--active" : ""}`}>

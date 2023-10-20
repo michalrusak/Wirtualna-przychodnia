@@ -11,6 +11,7 @@ const NewAppointment = () => {
   const tabExample = ["8:30", "9:00", "10:00", "11:20"];
 
   useEffect(() => {
+    document.title = "Nowa wizyta | Wirtulna przychodnia";
     console.log(date);
     console.log(hour);
     // setfullDate(

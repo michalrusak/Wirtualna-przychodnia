@@ -2,6 +2,9 @@ import { Formik, Form, Field } from "formik";
 import "./Login.scss";
 import * as yup from "yup";
 import { UserLogin } from "../../models/user.model";
+import { useEffect } from "react";
+import authService from "../../services/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const LoginSchema = () =>
   yup.object().shape({
@@ -18,8 +21,18 @@ const LoginSchema = () =>
   });
 
 const Login = () => {
-  const handleLogin = (values: UserLogin) => {
-    console.log(values);
+  const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "Zaloguj się | Wirtulna przychodnia";
+  });
+
+  const handleLogin = async (values: UserLogin) => {
+    const result = await authService.login(values.email, values.password);
+    if (result) {
+      navigate("/");
+    } else {
+      alert("Wystąpił błąd logowania. Spróbuj ponownie.");
+    }
   };
 
   return (

@@ -1,0 +1,7 @@
+@import "../../styles/main.scss";
+
+.logout {
+  @extend .flex-center;
+  @extend .flex-center-page;
+  color: $color-font-black;
+}
