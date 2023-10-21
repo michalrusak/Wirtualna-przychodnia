@@ -5,7 +5,7 @@ import { UserLogin } from "../../models/user.model";
 import { useContext, useEffect } from "react";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 const LoginSchema = () =>
   yup.object().shape({
@@ -22,7 +22,7 @@ const LoginSchema = () =>
   });
 
 const Login = () => {
-  const { toogleLoggedState } = useContext(AppContext);
+  const { toogleLoggedState } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Zaloguj się | Wirtulna przychodnia";
@@ -31,7 +31,7 @@ const Login = () => {
   const handleLogin = async (values: UserLogin) => {
     const result = await authService.login(values.email, values.password);
     if (result) {
-      toogleLoggedState();
+      toogleLoggedState(true);
       navigate("/");
     } else {
       alert("Wystąpił błąd logowania. Spróbuj ponownie.");

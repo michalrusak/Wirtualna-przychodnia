@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/navbar/Navbar";
-
 import "./styles/main.scss";
 import Footer from "./components/footer/Footer";
 import { Routes, Route } from "react-router-dom";
@@ -12,21 +11,36 @@ import Register from "./pages/register/Register";
 import Appointments from "./pages/appointments/Appointments";
 import NewAppointment from "./pages/newAppointment/NewAppointment";
 import Logout from "./pages/logout/Logout";
-import { AppContext, defaultObject } from "./context/UserContext";
+import { UserContext, defaultObject } from "./context/UserContext";
+import authService from "./services/auth-service";
 
 function App() {
   const [isUser, setUser] = useState(defaultObject.isUserLogged);
 
-  const handleUser = () => {
-    setUser((prevState) => !prevState);
+  const handleToogleLoggedUser = (value: boolean) => {
+    setUser(value);
   };
+
+  const isLogged = async () => {
+    const result = await authService.checkUserLogged();
+    console.log(result);
+    if (result) {
+      handleToogleLoggedUser(true);
+    } else {
+      handleToogleLoggedUser(false);
+    }
+  };
+
+  useEffect(() => {
+    isLogged();
+  });
 
   return (
     <>
-      <AppContext.Provider
+      <UserContext.Provider
         value={{
           isUserLogged: isUser,
-          toogleLoggedState: handleUser,
+          toogleLoggedState: handleToogleLoggedUser,
         }}
       >
         <Navbar />
@@ -45,7 +59,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </AppContext.Provider>
+      </UserContext.Provider>
     </>
   );
 }

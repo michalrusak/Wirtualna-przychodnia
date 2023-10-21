@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "./Register.scss";
 import { UserRegister } from "../../models/user.model";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -25,6 +26,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const { toogleLoggedState } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Zarejestruj się | Wirtulna przychodnia";
@@ -33,6 +35,7 @@ const Register = () => {
   const handleRegister = async (values: UserRegister) => {
     const result = await authService.register(values.email, values.password);
     if (result) {
+      toogleLoggedState(true);
       navigate("/");
     } else {
       alert("Wystąpił błąd rejestracji. Spróbuj ponownie.");

@@ -1,50 +1,43 @@
 import { NavLink } from "react-router-dom";
 import { RouterEnum } from "../../enums/RouterEnum";
 import "./Navbar.scss";
-import { useContext, useEffect, useState } from "react";
-import authService from "../../services/auth-service";
-import { AppContext } from "../../context/UserContext";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [isUser, setIsUser] = useState(false);
   const showNavbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const { isUserLogged } = useContext(AppContext);
-
-  useEffect(() => {
-    // isLogged();
-  }, []);
-
-  // const isLogged = async () => {
-  //   const result = await authService.checkUserLogged();
-  //   console.log(result);
-  //   if (result) {
-  //     setIsUser(true);
-  //   } else {
-  //     setIsUser(false);
-  //   }
-  // };
+  const { isUserLogged } = useContext(UserContext);
 
   const elements = !isUserLogged ? (
     <>
-      <li className="navbar__list-item">
-        <NavLink className="navbar__navlink" to={RouterEnum.login}>
+      <li className={`navbar${isOpen ? "-mobile" : ""}__list-item`}>
+        <NavLink
+          className={`navbar${isOpen ? "-mobile" : ""}__navlink`}
+          to={RouterEnum.login}
+        >
           Zaloguj się
         </NavLink>
       </li>
-      <li className="navbar__list-item">
-        <NavLink className="navbar__navlink" to={RouterEnum.register}>
+      <li className={`navbar${isOpen ? "-mobile" : ""}__list-item`}>
+        <NavLink
+          className={`navbar${isOpen ? "-mobile" : ""}__navlink`}
+          to={RouterEnum.register}
+        >
           Zarejesteruj się
         </NavLink>
       </li>
     </>
   ) : (
     <>
-      <li className="navbar__list-item">
-        <NavLink className="navbar__navlink" to={RouterEnum.logout}>
+      <li className={`navbar${isOpen ? "-mobile" : ""}__list-item`}>
+        <NavLink
+          className={`navbar${isOpen ? "-mobile" : ""}__navlink`}
+          to={RouterEnum.logout}
+        >
           Wyloguj
         </NavLink>
       </li>
@@ -112,7 +105,7 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          <li className="navbar-mobile__list-item">
+          {/* <li className="navbar-mobile__list-item">
             <NavLink className="navbar-mobile__navlink" to={RouterEnum.login}>
               Zaloguj się
             </NavLink>
@@ -124,7 +117,9 @@ const Navbar = () => {
             >
               Zarejesteruj się
             </NavLink>
-          </li>
+          </li> */}
+
+          <>{elements}</>
         </ul>
       </nav>
     </>
