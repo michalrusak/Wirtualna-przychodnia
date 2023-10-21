@@ -33,7 +33,7 @@ const Register = () => {
   });
 
   const handleRegister = async (values: UserRegister) => {
-    const result = await authService.register(values.email, values.password);
+    const result = await authService.register(values);
     if (result) {
       toogleLoggedState(true);
       navigate("/");

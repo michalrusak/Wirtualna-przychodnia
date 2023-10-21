@@ -10,39 +10,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const { isUserLogged } = useContext(UserContext);
-
-  const elements = !isUserLogged ? (
-    <>
-      <li className={`navbar${isOpen ? "-mobile" : ""}__list-item`}>
-        <NavLink
-          className={`navbar${isOpen ? "-mobile" : ""}__navlink`}
-          to={RouterEnum.login}
-        >
-          Zaloguj się
-        </NavLink>
-      </li>
-      <li className={`navbar${isOpen ? "-mobile" : ""}__list-item`}>
-        <NavLink
-          className={`navbar${isOpen ? "-mobile" : ""}__navlink`}
-          to={RouterEnum.register}
-        >
-          Zarejesteruj się
-        </NavLink>
-      </li>
-    </>
-  ) : (
-    <>
-      <li className={`navbar${isOpen ? "-mobile" : ""}__list-item`}>
-        <NavLink
-          className={`navbar${isOpen ? "-mobile" : ""}__navlink`}
-          to={RouterEnum.logout}
-        >
-          Wyloguj
-        </NavLink>
-      </li>
-    </>
-  );
+  const { isUserLogged, displayName } = useContext(UserContext);
 
   return (
     <>
@@ -78,7 +46,33 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <ul className="navbar__list">{elements}</ul>
+        <ul className="navbar__list">
+          {!isUserLogged ? (
+            <>
+              <li className="navbar__list-item">
+                <NavLink className="navbar__navlink" to={RouterEnum.login}>
+                  Zaloguj się
+                </NavLink>
+              </li>
+              <li className="navbar__list-item">
+                <NavLink className="navbar__navlink" to={RouterEnum.register}>
+                  Zarejesteruj się
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="navbar__list-item">
+                <NavLink className="navbar__navlink" to={RouterEnum.logout}>
+                  Wyloguj
+                </NavLink>
+              </li>
+              <li className="navbar__list-item">
+                <p className="navbar__name">{displayName}</p>
+              </li>
+            </>
+          )}
+        </ul>
       </nav>
 
       <nav className={`navbar-mobile ${isOpen ? "navbar-mobile--active" : ""}`}>
@@ -105,21 +99,42 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          {/* <li className="navbar-mobile__list-item">
-            <NavLink className="navbar-mobile__navlink" to={RouterEnum.login}>
-              Zaloguj się
-            </NavLink>
-          </li>
-          <li className="navbar-mobile__list-item">
-            <NavLink
-              className="navbar-mobile__navlink"
-              to={RouterEnum.register}
-            >
-              Zarejesteruj się
-            </NavLink>
-          </li> */}
-
-          <>{elements}</>
+          <>
+            {!isUserLogged ? (
+              <>
+                <li className="navbar-mobile__list-item">
+                  <NavLink
+                    className="navbar-mobile__navlink"
+                    to={RouterEnum.login}
+                  >
+                    Zaloguj się
+                  </NavLink>
+                </li>
+                <li className="navbar-mobile__list-item">
+                  <NavLink
+                    className="navbar-mobile__navlink"
+                    to={RouterEnum.register}
+                  >
+                    Zarejesteruj się
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="navbar-mobile__list-item">
+                  <NavLink
+                    className="navbar-mobile__navlink"
+                    to={RouterEnum.logout}
+                  >
+                    Wyloguj
+                  </NavLink>
+                </li>
+                <li className="navbar-mobile__list-item">
+                  <p className="navbar-mobile__name">{displayName}</p>
+                </li>
+              </>
+            )}
+          </>
         </ul>
       </nav>
     </>

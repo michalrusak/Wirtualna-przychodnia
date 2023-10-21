@@ -29,7 +29,7 @@ const Login = () => {
   });
 
   const handleLogin = async (values: UserLogin) => {
-    const result = await authService.login(values.email, values.password);
+    const result = await authService.login(values);
     if (result) {
       toogleLoggedState(true);
       navigate("/");

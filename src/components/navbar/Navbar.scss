@@ -54,6 +54,14 @@
     }
   }
 
+  &__name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+  }
+
   &__list {
     display: flex;
     flex-direction: row;
@@ -105,6 +113,12 @@
     align-items: center;
     list-style: none;
     height: 100%;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__list-item {

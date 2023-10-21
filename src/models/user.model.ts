@@ -6,3 +6,9 @@ export interface UserRegister {
 }
 
 export type UserLogin = Omit<UserRegister, "firstName" | "lastName">;
+
+export interface User {
+  uid: string;
+  displayName: string;
+  phoneNumber: string;
+}

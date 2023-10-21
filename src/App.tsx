@@ -13,9 +13,11 @@ import NewAppointment from "./pages/newAppointment/NewAppointment";
 import Logout from "./pages/logout/Logout";
 import { UserContext, defaultObject } from "./context/UserContext";
 import authService from "./services/auth-service";
+import { User } from "./models/user.model";
 
 function App() {
   const [isUser, setUser] = useState(defaultObject.isUserLogged);
+  const [name, setName] = useState<string>("");
 
   const handleToogleLoggedUser = (value: boolean) => {
     setUser(value);
@@ -26,8 +28,11 @@ function App() {
     console.log(result);
     if (result) {
       handleToogleLoggedUser(true);
+      const user: User = await authService.getUser();
+      setName(user?.displayName);
     } else {
       handleToogleLoggedUser(false);
+      setName("");
     }
   };
 
@@ -40,6 +45,7 @@ function App() {
       <UserContext.Provider
         value={{
           isUserLogged: isUser,
+          displayName: name,
           toogleLoggedState: handleToogleLoggedUser,
         }}
       >
