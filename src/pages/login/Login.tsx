@@ -2,9 +2,10 @@ import { Formik, Form, Field } from "formik";
 import "./Login.scss";
 import * as yup from "yup";
 import { UserLogin } from "../../models/user.model";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../context/UserContext";
 
 const LoginSchema = () =>
   yup.object().shape({
@@ -21,6 +22,7 @@ const LoginSchema = () =>
   });
 
 const Login = () => {
+  const { toogleLoggedState } = useContext(AppContext);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Zaloguj się | Wirtulna przychodnia";
@@ -29,6 +31,7 @@ const Login = () => {
   const handleLogin = async (values: UserLogin) => {
     const result = await authService.login(values.email, values.password);
     if (result) {
+      toogleLoggedState();
       navigate("/");
     } else {
       alert("Wystąpił błąd logowania. Spróbuj ponownie.");

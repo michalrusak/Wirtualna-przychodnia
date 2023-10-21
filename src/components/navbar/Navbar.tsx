@@ -1,31 +1,34 @@
 import { NavLink } from "react-router-dom";
 import { RouterEnum } from "../../enums/RouterEnum";
 import "./Navbar.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import authService from "../../services/auth-service";
+import { AppContext } from "../../context/UserContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  // const [isUser, setIsUser] = useState(false);
   const showNavbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const { isUserLogged } = useContext(AppContext);
+
   useEffect(() => {
-    isLogged();
+    // isLogged();
   }, []);
 
-  const isLogged = async () => {
-    const result = await authService.checkUserLogged();
-    console.log(result);
-    if (result) {
-      setIsUser(true);
-    } else {
-      setIsUser(false);
-    }
-  };
+  // const isLogged = async () => {
+  //   const result = await authService.checkUserLogged();
+  //   console.log(result);
+  //   if (result) {
+  //     setIsUser(true);
+  //   } else {
+  //     setIsUser(false);
+  //   }
+  // };
 
-  const elements = !isUser ? (
+  const elements = !isUserLogged ? (
     <>
       <li className="navbar__list-item">
         <NavLink className="navbar__navlink" to={RouterEnum.login}>

@@ -10,6 +10,7 @@ const Home = () => {
 
   const isLogged = async () => {
     const result = await authService.checkUserLogged();
+    console.log(result);
     if (result) {
       console.log("zalogowany");
     } else {

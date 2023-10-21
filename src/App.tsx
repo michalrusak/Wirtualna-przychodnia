@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./components/navbar/Navbar";
 
 import "./styles/main.scss";
@@ -12,26 +12,40 @@ import Register from "./pages/register/Register";
 import Appointments from "./pages/appointments/Appointments";
 import NewAppointment from "./pages/newAppointment/NewAppointment";
 import Logout from "./pages/logout/Logout";
+import { AppContext, defaultObject } from "./context/UserContext";
 
 function App() {
+  const [isUser, setUser] = useState(defaultObject.isUserLogged);
+
+  const handleUser = () => {
+    setUser((prevState) => !prevState);
+  };
+
   return (
     <>
-      <Navbar />
-      <main className="container">
-        <Routes>
-          <Route path={RouterEnum.home} element={<Home />} />
-          <Route path={RouterEnum.login} element={<Login />} />
-          <Route path={RouterEnum.register} element={<Register />} />
-          <Route path={RouterEnum.logout} element={<Logout />} />
-          <Route path={RouterEnum.appointments} element={<Appointments />} />
-          <Route
-            path={RouterEnum.newAppointments}
-            element={<NewAppointment />}
-          />
-          <Route path={RouterEnum.notFound} element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
+      <AppContext.Provider
+        value={{
+          isUserLogged: isUser,
+          toogleLoggedState: handleUser,
+        }}
+      >
+        <Navbar />
+        <main className="container">
+          <Routes>
+            <Route path={RouterEnum.home} element={<Home />} />
+            <Route path={RouterEnum.login} element={<Login />} />
+            <Route path={RouterEnum.register} element={<Register />} />
+            <Route path={RouterEnum.logout} element={<Logout />} />
+            <Route path={RouterEnum.appointments} element={<Appointments />} />
+            <Route
+              path={RouterEnum.newAppointments}
+              element={<NewAppointment />}
+            />
+            <Route path={RouterEnum.notFound} element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </AppContext.Provider>
     </>
   );
 }

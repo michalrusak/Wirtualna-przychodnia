@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import "./Logout.scss";
+import { AppContext } from "../../context/UserContext";
 
 const Logout = () => {
+  const { toogleLoggedState } = useContext(AppContext);
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
@@ -13,22 +15,18 @@ const Logout = () => {
   });
 
   const logout = async () => {
-    const userResult = await authService.checkUserLogged();
-    if (userResult) {
-      const logoutResult = await authService.logout();
-      if (logoutResult) {
-        setMessage("Wylogowano poprawnie!");
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
-      } else {
-        setMessage("Coś poszło nie tak!");
-        setTimeout(() => {
-          navigate("/");
-        }, 10000);
-      }
+    const logoutResult = await authService.logout();
+    if (logoutResult) {
+      setMessage("Wylogowano poprawnie!");
+      toogleLoggedState();
+      setTimeout(() => {
+        navigate("/");
+      }, 30000);
     } else {
-      navigate(-1);
+      setMessage("Coś poszło nie tak!");
+      setTimeout(() => {
+        navigate("/");
+      }, 10000);
     }
   };
 
