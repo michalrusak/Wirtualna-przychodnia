@@ -1,4 +1,4 @@
-import firebaseApp from "../config/firebase-config";
+import firebaseApp, { db } from "../config/firebase-config";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -9,16 +9,44 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { User, UserLogin, UserRegister } from "../models/user.model";
-// import { getFirestore } from "firebase/firestore";
-// import { getStorage } from "firebase/storage";
 
-// export const db = getFirestore(firebaseApp);
-// export const storage = getStorage(firebaseApp);
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+
+import { User, UserLogin, UserRegister } from "../models/user.model";
 
 class AuthService {
   auth = getAuth(firebaseApp);
   googleProvider = new GoogleAuthProvider();
+
+  async isDoctor() {
+    try {
+      const user = await this.getUser();
+      const uid = user.uid;
+      const admins = collection(db, "admins");
+
+      const q = query(admins, where("uid", "==", uid));
+
+      const res = await getDocs(q);
+
+      if (!res.empty) {
+        const { role } = res.docs[0].data();
+        if (role === "lekarz") return true;
+        return false;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
 
   getUser(): Promise<User> {
     return new Promise((resolve, reject) => {
