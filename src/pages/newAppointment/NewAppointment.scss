@@ -7,10 +7,21 @@
     text-align: center;
     margin: 10px 0;
   }
-  &__container {
+  &__dropdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+  }
+  &__calendar-container {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  &__hours-container {
+    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -18,7 +29,7 @@
 
 @media (max-width: map-get($grid-breakpoints, xs)) {
   .new-appointment {
-    &__container {
+    &__calendar-container {
       overflow-x: scroll;
       width: 100%;
       justify-content: flex-start;

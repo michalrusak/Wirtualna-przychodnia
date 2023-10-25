@@ -3,7 +3,7 @@ import { db } from "../config/firebase-config";
 import { DoctorsArray } from "../models/doctor.model";
 
 class DatabaseService {
-  async getdoctors() {
+  async getdoctors(): Promise<DoctorsArray> {
     try {
       const doctors = collection(db, "doctors");
 
@@ -21,12 +21,14 @@ class DatabaseService {
 
       return doctorsArray;
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      throw error;
     }
   }
   setEmptyAppointement() {}
   setAppointment() {}
-  getMyAppointments() {}
+  getDoctorAppointments() {}
+  getPatientAppointments() {}
 }
 
 const databaseService = new DatabaseService();
