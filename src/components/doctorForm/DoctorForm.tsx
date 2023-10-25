@@ -39,7 +39,7 @@ const DoctorForm = () => {
         value={selectedValue}
         onChange={handleSelectChange}
       >
-        <option className="doctor-form__option" disabled hidden>
+        <option className="doctor-form__option" value="" disabled hidden>
           Wybierz lekarza
         </option>
         {options}

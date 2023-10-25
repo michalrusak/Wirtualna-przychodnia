@@ -25,6 +25,19 @@
     justify-content: center;
     align-items: center;
   }
+
+  &__button {
+    @include button($color-font-white, $button-bgc1);
+    &[disabled] {
+      background-color: $disabled-color;
+      cursor: not-allowed;
+    }
+  }
+
+  &__button-container {
+    @extend .flex-center;
+    margin: 20px 0;
+  }
 }
 
 @media (max-width: map-get($grid-breakpoints, xs)) {

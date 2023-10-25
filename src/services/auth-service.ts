@@ -1,4 +1,3 @@
-import firebaseApp, { db } from "../config/firebase-config";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -9,15 +8,9 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import firebaseApp, { db } from "../config/firebase-config";
 
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { User, UserLogin, UserRegister } from "../models/user.model";
 
