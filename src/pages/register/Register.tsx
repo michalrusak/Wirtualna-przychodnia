@@ -6,6 +6,7 @@ import { UserRegister } from "../../models/user.model";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import { RouterEnum } from "../../enums/RouterEnum";
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -26,17 +27,24 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
-  const { toogleLoggedState } = useContext(UserContext);
+  const { toogleLoggedState, isUserLogged } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Zarejestruj się | Wirtulna przychodnia";
+    checkUserLogged();
   });
+
+  const checkUserLogged = () => {
+    if (isUserLogged) {
+      navigate(-1);
+    }
+  };
 
   const handleRegister = async (values: UserRegister) => {
     const result = await authService.register(values);
     if (result) {
       toogleLoggedState(true);
-      navigate("/");
+      navigate(RouterEnum.home);
     } else {
       alert("Wystąpił błąd rejestracji. Spróbuj ponownie.");
     }

@@ -6,6 +6,7 @@ import { useContext, useEffect } from "react";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import { RouterEnum } from "../../enums/RouterEnum";
 
 const LoginSchema = () =>
   yup.object().shape({
@@ -22,17 +23,24 @@ const LoginSchema = () =>
   });
 
 const Login = () => {
-  const { toogleLoggedState } = useContext(UserContext);
+  const { toogleLoggedState, isUserLogged } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Zaloguj się | Wirtulna przychodnia";
+    checkUserLogged();
   });
+
+  const checkUserLogged = () => {
+    if (isUserLogged) {
+      navigate(-1);
+    }
+  };
 
   const handleLogin = async (values: UserLogin) => {
     const result = await authService.login(values);
     if (result) {
       toogleLoggedState(true);
-      navigate("/");
+      navigate(RouterEnum.home);
     } else {
       alert("Wystąpił błąd logowania. Spróbuj ponownie.");
     }
