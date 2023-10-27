@@ -14,30 +14,44 @@ const NewAppointment = () => {
   const [date, setDate] = useState(new Date(NaN));
   const [fullDate, setFullDate] = useState(new Date(NaN));
   const [hour, setHour] = useState("");
-  const [isDoctor, setIsDoctor] = useState(false);
+  const [isDoctorMode, setIsDoctorMode] = useState(false);
+  const [doctor, setDoctor] = useState("");
+  const [hoursToReserve, setHoursToReserve] = useState<String[]>([]);
 
   const { isUserLogged } = useContext(UserContext);
 
   const checkUserRole = async () => {
     if (isUserLogged) {
       const doctor = await authService.isDoctor();
-      const isDoctor = doctor ? true : false;
-      setIsDoctor(isDoctor);
+      const isDoctorMode = doctor ? true : false;
+      setIsDoctorMode(isDoctorMode);
     } else {
       navigate(RouterEnum.login);
     }
   };
-  // 1. zrobić dodawanie nowej pustej wizyty
-  // 2. pobieranie wizytw zalezności od doktora
 
   const handleSetAppointment = async () => {
     try {
       console.log(fullDate);
-      if (isDoctor) {
+      if (isDoctorMode) {
         databaseService.setEmptyAppointement(fullDate);
       } else {
-        databaseService.setAppointment(fullDate);
+        databaseService.reserveAppointment(fullDate);
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getEmptyAppointments = async () => {
+    try {
+      const hoursToReserve = await databaseService.getAppointmentsToReserve(
+        date,
+        doctor
+      );
+
+      console.log(hoursToReserve);
+      setHoursToReserve(hoursToReserve);
     } catch (error) {
       console.error(error);
     }
@@ -75,7 +89,7 @@ const NewAppointment = () => {
     checkUserRole();
     document.title = "Nowa wizyta | Wirtulna przychodnia";
     // console.log(date);
-    // console.log(hour);
+    // console.log(doctor);
     setFullDate(
       new Date(
         date.getFullYear(),
@@ -95,14 +109,18 @@ const NewAppointment = () => {
     //     Number(hour.split(":")[1])
     //   )
     // );
-  }, [date, hour]);
+
+    if (!isDoctorMode && doctor && date.getDate()) {
+      getEmptyAppointments();
+    }
+  }, [date, hour, doctor]);
 
   return (
     <div className="new-appointment">
       <h2 className="new-appointment__title">Dodaj nową wizytę</h2>
-      {isDoctor ? null : (
+      {isDoctorMode ? null : (
         <div className="new-appointment__dropdown-container">
-          <DoctorForm />
+          <DoctorForm setDoctor={(doctor: string) => setDoctor(doctor)} />
         </div>
       )}
       <div className="new-appointment__calendar-container">
@@ -111,7 +129,7 @@ const NewAppointment = () => {
       <div className="new-appointment__hours-container">
         <HourForm
           setHour={(hour: string) => setHour(hour)}
-          hoursArray={tabExample}
+          hoursArray={isDoctorMode ? tabExample : hoursToReserve}
         />
       </div>
       <div className="new-appointment__button-container">
@@ -120,7 +138,7 @@ const NewAppointment = () => {
           onClick={handleSetAppointment}
           className="new-appointment__button"
         >
-          {isDoctor ? "Dodaj wizytę" : "Umów wizytę"}
+          {isDoctorMode ? "Dodaj wizytę" : "Umów wizytę"}
         </button>
       </div>
     </div>
