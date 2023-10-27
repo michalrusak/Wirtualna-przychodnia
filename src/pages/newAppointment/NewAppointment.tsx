@@ -36,7 +36,7 @@ const NewAppointment = () => {
       if (isDoctorMode) {
         databaseService.setEmptyAppointement(fullDate);
       } else {
-        databaseService.reserveAppointment(fullDate);
+        databaseService.reserveAppointment(fullDate, doctor);
       }
     } catch (error) {
       console.error(error);

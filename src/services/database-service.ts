@@ -2,13 +2,15 @@ import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
-  orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import firebaseApp, { db } from "../config/firebase-config";
 import { DoctorsArray } from "../models/doctor.model";
+import authService from "./auth-service";
 
 class DatabaseService {
   auth = getAuth(firebaseApp);
@@ -51,8 +53,28 @@ class DatabaseService {
       throw error;
     }
   }
-  async reserveAppointment(date: Date) {
+  async reserveAppointment(date: Date, doctorUid: string) {
     try {
+      const appointments = collection(db, "appointments");
+
+      const q = query(
+        appointments,
+        where("date", "==", date),
+        where("doctorUid", "==", doctorUid)
+      );
+
+      const querySnap = await getDocs(q);
+
+      let documentRef: string = "";
+      querySnap.forEach((doc) => {
+        documentRef = doc.ref.id;
+      });
+
+      const appointmentRef = doc(appointments, documentRef);
+
+      const { uid } = await authService.getUser();
+
+      await updateDoc(appointmentRef, { isAvailable: false, patientUid: uid });
     } catch (error) {
       // console.error(error);
       throw error;
@@ -87,7 +109,7 @@ class DatabaseService {
             fullDate.getFullYear(),
             fullDate.getMonth(),
             fullDate.getDate(),
-            1,
+            0,
             0
           )
         ),
