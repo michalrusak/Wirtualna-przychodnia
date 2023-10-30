@@ -4,13 +4,13 @@ import {
   collection,
   doc,
   getDocs,
+  orderBy,
   query,
   updateDoc,
   where,
 } from "firebase/firestore";
 import firebaseApp, { db } from "../config/firebase-config";
 import { DoctorsArray } from "../models/doctor.model";
-import authService from "./auth-service";
 
 class DatabaseService {
   auth = getAuth(firebaseApp);
@@ -46,6 +46,8 @@ class DatabaseService {
         date,
         patientUid: "",
         doctorUid: this.auth?.currentUser?.uid,
+        patientName: "",
+        doctorName: this.auth?.currentUser?.displayName,
         isAvailable: true,
       });
     } catch (error) {
@@ -72,9 +74,11 @@ class DatabaseService {
 
       const appointmentRef = doc(appointments, documentRef);
 
-      const { uid } = await authService.getUser();
-
-      await updateDoc(appointmentRef, { isAvailable: false, patientUid: uid });
+      await updateDoc(appointmentRef, {
+        isAvailable: false,
+        patientUid: this.auth?.currentUser?.uid,
+        patientName: this.auth?.currentUser?.displayName,
+      });
     } catch (error) {
       // console.error(error);
       throw error;
@@ -82,13 +86,59 @@ class DatabaseService {
   }
   async getDoctorAppointments() {
     try {
+      const appointments = collection(db, "appointments");
+
+      const q = query(
+        appointments,
+        where("doctorUid", "==", this.auth?.currentUser?.uid),
+        orderBy("date")
+      );
+
+      const querySnap = await getDocs(q);
+
+      const appointmentsArray: Object[] = [];
+
+      querySnap.forEach(async (elem) => {
+        const { date, isAvailable, patientName } = elem.data();
+
+        const newDate = new Date(date.seconds * 1000);
+
+        appointmentsArray.push({
+          date: newDate,
+          name: patientName,
+          isAvailable,
+        });
+      });
+      return appointmentsArray;
     } catch (error) {
       // console.error(error);
       throw error;
     }
   }
+
   async getPatientAppointments() {
     try {
+      const appointments = collection(db, "appointments");
+
+      const q = query(
+        appointments,
+        where("patientUid", "==", this.auth?.currentUser?.uid),
+        orderBy("date")
+      );
+
+      const querySnap = await getDocs(q);
+
+      const appointmentsArray: Object[] = [];
+
+      querySnap.forEach((elem) => {
+        const { date, doctorName } = elem.data();
+
+        const newDate = new Date(date.seconds * 1000);
+
+        appointmentsArray.push({ date: newDate, name: doctorName });
+      });
+
+      return appointmentsArray;
     } catch (error) {
       // console.error(error);
       throw error;
@@ -123,7 +173,8 @@ class DatabaseService {
             23,
             59
           )
-        )
+        ),
+        where("isAvailable", "==", true)
       );
 
       const res = await getDocs(q);
@@ -134,7 +185,11 @@ class DatabaseService {
         const { date } = elem.data();
 
         const hour = new Date(date.seconds * 1000).getHours();
-        const minutes = new Date(date.seconds * 1000).getMinutes();
+        let minutes = new Date(date.seconds * 1000).getMinutes().toString();
+
+        if (minutes === "0") {
+          minutes = "0" + minutes;
+        }
 
         list.push(`${hour}:${minutes}`);
       });

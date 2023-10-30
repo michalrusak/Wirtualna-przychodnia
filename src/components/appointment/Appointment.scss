@@ -1,0 +1,31 @@
+@import "../../styles//main.scss";
+
+.appointment {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 60vw;
+  min-width: 750px;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: $reserved-appointment-color;
+  &--available {
+    background-color: $available-appointment-color;
+  }
+
+  &__date,
+  &__hour,
+  &__name {
+    font-size: 1.6rem;
+    flex-basis: 33%;
+    text-align: center;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .appointment {
+    flex-direction: column;
+    min-width: 400px;
+  }
+}

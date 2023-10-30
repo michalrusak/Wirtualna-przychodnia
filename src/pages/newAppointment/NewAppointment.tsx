@@ -99,17 +99,7 @@ const NewAppointment = () => {
         Number(hour.split(":")[1])
       )
     );
-
-    // console.log(
-    //   new Date(
-    //     date.getFullYear(),
-    //     date.getMonth(),
-    //     date.getDate(),
-    //     Number(hour.split(":")[0]),
-    //     Number(hour.split(":")[1])
-    //   )
-    // );
-
+    console.log(fullDate);
     if (!isDoctorMode && doctor && date.getDate()) {
       getEmptyAppointments();
     }

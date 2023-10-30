@@ -1,0 +1,36 @@
+@import "../../styles//main.scss";
+
+.appointments-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+  &__title {
+    font-size: 1.6rem;
+    margin: 10px 0;
+  }
+
+  &__list-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 65vw;
+    min-width: 750px;
+    margin: 10px 0;
+    padding: 15px 40px;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border-radius: 2px;
+    background-color: $beige-color;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .appointments-list {
+    &__list-header {
+      display: none;
+    }
+  }
+}
