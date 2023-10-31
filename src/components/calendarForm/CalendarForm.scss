@@ -1,9 +1,8 @@
 @import "../../styles/main.scss";
 
-$width-calendar: 600px;
-$height-row: 35px;
-
 .calendar {
+  $width-calendar: 600px;
+  $height-row: 35px;
   width: $width-calendar;
   height: 400px;
   text-align: center;
@@ -30,15 +29,15 @@ $height-row: 35px;
     background-color: $beige-color;
   }
   &__dayOfWeek {
+    @extend .flex-center;
     text-transform: uppercase;
     width: calc($width-calendar / 7);
     height: $height-row;
-    @extend .flex-center;
   }
   &__day {
+    @extend .flex-center;
     width: calc($width-calendar / 7);
     height: $height-row;
-    @extend .flex-center;
     &--current {
       cursor: pointer;
       font-weight: bold;

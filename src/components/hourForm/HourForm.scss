@@ -3,10 +3,8 @@
 .hour-form {
   width: 300px;
   &__hours {
-    display: flex;
+    @extend .flex-center;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
   &__title {
     text-align: center;

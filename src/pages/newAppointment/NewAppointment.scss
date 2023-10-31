@@ -8,22 +8,16 @@
     margin: 10px 0;
   }
   &__dropdown-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .flex-center;
     margin: 30px 0;
   }
   &__calendar-container {
-    display: flex;
+    @extend .flex-center;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
   }
   &__hours-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .flex-center;
   }
 
   &__button {

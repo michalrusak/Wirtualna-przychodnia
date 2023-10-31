@@ -1,0 +1,21 @@
+@import "../../styles//main.scss";
+
+.not-found {
+  @extend .flex-center;
+  @extend .flex-center-page;
+  &__title {
+    font-size: 2.4rem;
+  }
+  &__description {
+    font-size: 1.4rem;
+  }
+
+  &__redirect {
+    font-size: 1.2rem;
+    color: $disabled-color;
+    &:hover {
+      color: $color-font-black;
+      text-decoration: underline;
+    }
+  }
+}
