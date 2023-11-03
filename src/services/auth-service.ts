@@ -13,17 +13,18 @@ import firebaseApp, { db } from "../config/firebase-config";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { UserLogin, UserRegister } from "../models/user.model";
+import { DatabaseEnum } from "../enums/DatabaseEnum";
 
 class AuthService {
   private auth = getAuth(firebaseApp);
   private googleProvider = new GoogleAuthProvider();
+  private admins = collection(db, DatabaseEnum.admins);
 
   async isDoctor() {
     try {
       const uid = this.auth?.currentUser?.uid;
-      const admins = collection(db, "admins");
 
-      const q = query(admins, where("uid", "==", uid));
+      const q = query(this.admins, where("uid", "==", uid));
 
       const res = await getDocs(q);
 

@@ -11,16 +11,18 @@ import {
 } from "firebase/firestore";
 import firebaseApp, { db } from "../config/firebase-config";
 import { DoctorsArray } from "../models/doctor.model";
+import { DatabaseEnum } from "../enums/DatabaseEnum";
 
 class DatabaseService {
   private auth = getAuth(firebaseApp);
   private currentDate = new Date();
 
+  private doctors = collection(db, DatabaseEnum.doctors);
+  private appointments = collection(db, DatabaseEnum.appointments);
+
   async getdoctors(): Promise<DoctorsArray> {
     try {
-      const doctors = collection(db, "doctors");
-
-      const res = await getDocs(doctors);
+      const res = await getDocs(this.doctors);
 
       const doctorsArray: DoctorsArray = [];
 
@@ -39,9 +41,7 @@ class DatabaseService {
   }
   async setEmptyAppointement(date: Date): Promise<Boolean> {
     try {
-      const appointments = collection(db, "appointments");
-
-      await addDoc(appointments, {
+      await addDoc(this.appointments, {
         date,
         patientUid: "",
         doctorUid: this.auth?.currentUser?.uid,
@@ -56,10 +56,8 @@ class DatabaseService {
   }
   async reserveAppointment(date: Date, doctorUid: string): Promise<Boolean> {
     try {
-      const appointments = collection(db, "appointments");
-
       const q = query(
-        appointments,
+        this.appointments,
         where("date", "==", date),
         where("doctorUid", "==", doctorUid)
       );
@@ -71,7 +69,7 @@ class DatabaseService {
         documentRef = doc.ref.id;
       });
 
-      const appointmentRef = doc(appointments, documentRef);
+      const appointmentRef = doc(this.appointments, documentRef);
 
       await updateDoc(appointmentRef, {
         isAvailable: false,
@@ -85,11 +83,10 @@ class DatabaseService {
   }
   async getDoctorAppointments(): Promise<Object[]> {
     try {
-      const appointments = collection(db, "appointments");
-
       const q = query(
-        appointments,
+        this.appointments,
         where("doctorUid", "==", this.auth?.currentUser?.uid),
+        where("date", ">=", this.currentDate),
         orderBy("date")
       );
 
@@ -116,11 +113,10 @@ class DatabaseService {
 
   async getPatientAppointments(): Promise<Object[]> {
     try {
-      const appointments = collection(db, "appointments");
-
       const q = query(
-        appointments,
+        this.appointments,
         where("patientUid", "==", this.auth?.currentUser?.uid),
+        where("date", ">=", this.currentDate),
         orderBy("date")
       );
 
@@ -147,10 +143,8 @@ class DatabaseService {
     doctor: string
   ): Promise<String[]> {
     try {
-      const appointments = collection(db, "appointments");
-
       const q = query(
-        appointments,
+        this.appointments,
         where("doctorUid", "==", doctor),
         where(
           "date",
