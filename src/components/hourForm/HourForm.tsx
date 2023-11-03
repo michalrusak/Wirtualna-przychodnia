@@ -39,7 +39,7 @@ const HourForm = (props: any) => {
 
   return (
     <div className="hour-form">
-      <h2 className="hour-form__title">Wybierz godzinę:</h2>
+      <h3 className="hour-form__title">Wybierz godzinę:</h3>
       <form className="hour-form__hours">{renderHours}</form>
       <div className="hour-form__error">
         {props.hoursArray.length === 0 ? "Brak dostępnych terminów" : null}

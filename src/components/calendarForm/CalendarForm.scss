@@ -6,6 +6,13 @@
   width: $width-calendar;
   height: 400px;
   text-align: center;
+
+  &__title {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
   &__current-date {
     font-size: 1.2rem;
   }

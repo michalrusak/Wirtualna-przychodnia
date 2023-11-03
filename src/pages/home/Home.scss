@@ -52,6 +52,10 @@
 
 @media (max-width: map-get($grid-breakpoints, lg)) {
   .home {
+    &__title,
+    &__paragraph {
+      margin-right: 0;
+    }
     &__advantage {
       flex-direction: column;
     }

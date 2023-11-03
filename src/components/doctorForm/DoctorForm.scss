@@ -1,11 +1,18 @@
 @import "../../styles/main.scss";
 
 .doctor-form {
+  overflow: hidden;
+  &__title {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
   &__select {
-    min-width: 400px;
+    width: 400px;
     padding: 10px;
     text-align: center;
     text-transform: capitalize;
+    border: 1px solid $color-font-black;
   }
   &__option {
     text-transform: capitalize;
@@ -15,7 +22,7 @@
 @media (max-width: map-get($grid-breakpoints, sm)) {
   .doctor-form {
     &__select {
-      min-width: 350px;
+      width: 350px;
     }
   }
 }
@@ -23,7 +30,7 @@
 @media (max-width: map-get($grid-breakpoints, xs)) {
   .doctor-form {
     &__select {
-      min-width: 300px;
+      width: 280px;
     }
   }
 }

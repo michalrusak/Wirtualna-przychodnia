@@ -188,12 +188,8 @@ const CalendarForm = (props: any) => {
 
   return (
     <div className="calendar">
+      <h3 className="calendar__title">Wybierz dzień:</h3>
       <div className="calendar__current-date">
-        {/* {!selectedDate.getDate()
-          ? "Nie wybrano daty"
-          : `${selectedDate.getDate()} ${
-              months[selectedDate.getMonth()]
-            } ${selectedDate.getFullYear()}`} */}
         {`${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
       </div>
 

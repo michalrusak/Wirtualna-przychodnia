@@ -10,6 +10,7 @@
   padding: 10px;
   border-radius: 5px;
   background-color: $reserved-appointment-color;
+  overflow: hidden;
   &--available {
     background-color: $available-appointment-color;
   }
@@ -26,6 +27,19 @@
 @media (max-width: map-get($grid-breakpoints, md)) {
   .appointment {
     flex-direction: column;
-    min-width: 400px;
+    width: 500px;
+    min-width: 500px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .appointment {
+    width: 350px;
+    min-width: 350px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, xs)) {
+  .appointment {
+    width: 280px;
+    min-width: 280px;
   }
 }

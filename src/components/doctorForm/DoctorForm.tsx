@@ -1,14 +1,19 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import databaseService from "../../services/database-service";
 import { DoctorsArray } from "../../models/doctor.model";
 import "./DoctorForm.scss";
+import { UserContext } from "../../context/UserContext";
 
 const DoctorForm = (props: any) => {
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [doctors, setDoctors] = useState<DoctorsArray>([]);
 
+  const { isUserLogged } = useContext(UserContext);
+
   useEffect(() => {
-    getDoctors();
+    if (isUserLogged) {
+      getDoctors();
+    }
 
     if (selectedDoctor) {
       props.setDoctor(selectedDoctor);
@@ -37,6 +42,7 @@ const DoctorForm = (props: any) => {
 
   return (
     <div className="doctor-form">
+      <h3 className="doctor-form__title">Wybierz lekarza:</h3>
       <select
         className="doctor-form__select"
         value={selectedDoctor}

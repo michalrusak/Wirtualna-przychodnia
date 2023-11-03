@@ -31,7 +31,7 @@ const Appointments = () => {
         navigate(RouterEnum.login);
       }
     } catch (error) {
-      console.error(error);
+      navigate(RouterEnum.login);
     }
   };
 

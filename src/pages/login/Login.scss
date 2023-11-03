@@ -4,6 +4,7 @@
   @extend .flex-center;
   @extend .flex-center-page;
   gap: 10px;
+  overflow: hidden;
 
   &__title {
     color: $color-font-black;
@@ -37,5 +38,13 @@
 
   &__redirect {
     @include button($color-font-white, $button-bgc1);
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .login {
+    &__form {
+      width: 340px;
+    }
   }
 }
