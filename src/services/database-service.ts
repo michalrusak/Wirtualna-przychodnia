@@ -13,8 +13,8 @@ import firebaseApp, { db } from "../config/firebase-config";
 import { DoctorsArray } from "../models/doctor.model";
 
 class DatabaseService {
-  auth = getAuth(firebaseApp);
-  currentDate = new Date();
+  private auth = getAuth(firebaseApp);
+  private currentDate = new Date();
 
   async getdoctors(): Promise<DoctorsArray> {
     try {
@@ -34,11 +34,10 @@ class DatabaseService {
 
       return doctorsArray;
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }
-  async setEmptyAppointement(date: Date) {
+  async setEmptyAppointement(date: Date): Promise<Boolean> {
     try {
       const appointments = collection(db, "appointments");
 
@@ -50,12 +49,12 @@ class DatabaseService {
         doctorName: this.auth?.currentUser?.displayName,
         isAvailable: true,
       });
+      return true;
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }
-  async reserveAppointment(date: Date, doctorUid: string) {
+  async reserveAppointment(date: Date, doctorUid: string): Promise<Boolean> {
     try {
       const appointments = collection(db, "appointments");
 
@@ -79,12 +78,12 @@ class DatabaseService {
         patientUid: this.auth?.currentUser?.uid,
         patientName: this.auth?.currentUser?.displayName,
       });
+      return true;
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }
-  async getDoctorAppointments() {
+  async getDoctorAppointments(): Promise<Object[]> {
     try {
       const appointments = collection(db, "appointments");
 
@@ -111,12 +110,11 @@ class DatabaseService {
       });
       return appointmentsArray;
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }
 
-  async getPatientAppointments() {
+  async getPatientAppointments(): Promise<Object[]> {
     try {
       const appointments = collection(db, "appointments");
 
@@ -140,12 +138,14 @@ class DatabaseService {
 
       return appointmentsArray;
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }
 
-  async getAppointmentsToReserve(fullDate: Date, doctor: string) {
+  async getAppointmentsToReserve(
+    fullDate: Date,
+    doctor: string
+  ): Promise<String[]> {
     try {
       const appointments = collection(db, "appointments");
 
@@ -196,7 +196,6 @@ class DatabaseService {
 
       return list;
     } catch (error) {
-      // console.error(error);
       throw error;
     }
   }

@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "./components/navbar/Navbar";
-import "./styles/main.scss";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Footer from "./components/footer/Footer";
-import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/navbar/Navbar";
+import { UserContext, defaultObject } from "./context/UserContext";
 import { RouterEnum } from "./enums/RouterEnum";
+import Appointments from "./pages/appointments/Appointments";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
+import Logout from "./pages/logout/Logout";
+import NewAppointment from "./pages/newAppointment/NewAppointment";
 import NotFound from "./pages/notFound/NotFound";
 import Register from "./pages/register/Register";
-import Appointments from "./pages/appointments/Appointments";
-import NewAppointment from "./pages/newAppointment/NewAppointment";
-import Logout from "./pages/logout/Logout";
-import { UserContext, defaultObject } from "./context/UserContext";
 import authService from "./services/auth-service";
-import { User } from "./models/user.model";
+import "./styles/main.scss";
 
 function App() {
   const [isUser, setUser] = useState(defaultObject.isUserLogged);
@@ -25,11 +24,10 @@ function App() {
 
   const isLogged = async () => {
     const result = await authService.checkUserLogged();
-    console.log(result);
     if (result) {
       handleToogleLoggedUser(true);
-      const user: User = await authService.getUser();
-      setName(user?.displayName);
+      const name = await authService.getName();
+      setName(name);
     } else {
       handleToogleLoggedUser(false);
       setName("");

@@ -3,31 +3,34 @@ import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import "./Logout.scss";
 import { UserContext } from "../../context/UserContext";
+import { RouterEnum } from "../../enums/RouterEnum";
 
 const Logout = () => {
+  const navigate = useNavigate();
   const { toogleLoggedState, isUserLogged } = useContext(UserContext);
   const [message, setMessage] = useState("");
 
-  const navigate = useNavigate();
   useEffect(() => {
     document.title = "Wyloguj | Wirtulna przychodnia";
-    if (!isUserLogged) {
-      navigate(-1);
-    } else logout();
+    if (isUserLogged) {
+      logout();
+    } else navigate(-1);
   });
 
   const logout = async () => {
-    const logoutResult = await authService.logout();
-    if (logoutResult) {
-      setMessage("Wylogowano poprawnie!");
-      toogleLoggedState(false);
-      setTimeout(() => {
-        navigate("/");
-      }, 3000);
-    } else {
+    try {
+      const logoutResult = await authService.logout();
+      if (logoutResult) {
+        setMessage("Wylogowano poprawnie!");
+        toogleLoggedState(false);
+        setTimeout(() => {
+          navigate(RouterEnum.home);
+        }, 3000);
+      }
+    } catch (error) {
       setMessage("Coś poszło nie tak!");
       setTimeout(() => {
-        navigate("/");
+        navigate(RouterEnum.home);
       }, 6000);
     }
   };

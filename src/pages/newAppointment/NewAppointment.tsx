@@ -32,11 +32,20 @@ const NewAppointment = () => {
 
   const handleSetAppointment = async () => {
     try {
-      console.log(fullDate);
       if (isDoctorMode) {
-        databaseService.setEmptyAppointement(fullDate);
+        const res = await databaseService.setEmptyAppointement(fullDate);
+        if (res) {
+          navigate(RouterEnum.appointments);
+        } else {
+          alert("Wystąpił błąd. Spóbuj ponownie później.");
+        }
       } else {
-        databaseService.reserveAppointment(fullDate, doctor);
+        const res = await databaseService.reserveAppointment(fullDate, doctor);
+        if (res) {
+          navigate(RouterEnum.appointments);
+        } else {
+          alert("Wystąpił błąd. Spóbuj ponownie później.");
+        }
       }
     } catch (error) {
       console.error(error);
@@ -49,11 +58,9 @@ const NewAppointment = () => {
         date,
         doctor
       );
-
-      console.log(hoursToReserve);
       setHoursToReserve(hoursToReserve);
     } catch (error) {
-      console.error(error);
+      alert("Wystąpił błąd. Spróbuj ponownie później.");
     }
   };
 
@@ -88,8 +95,6 @@ const NewAppointment = () => {
   useEffect(() => {
     checkUserRole();
     document.title = "Nowa wizyta | Wirtulna przychodnia";
-    // console.log(date);
-    // console.log(doctor);
     setFullDate(
       new Date(
         date.getFullYear(),
@@ -99,7 +104,6 @@ const NewAppointment = () => {
         Number(hour.split(":")[1])
       )
     );
-    console.log(fullDate);
     if (!isDoctorMode && doctor && date.getDate()) {
       getEmptyAppointments();
     }

@@ -41,11 +41,13 @@ const Register = () => {
   };
 
   const handleRegister = async (values: UserRegister) => {
-    const result = await authService.register(values);
-    if (result) {
-      toogleLoggedState(true);
-      navigate(RouterEnum.home);
-    } else {
+    try {
+      const result = await authService.register(values);
+      if (result) {
+        toogleLoggedState(true);
+        navigate(RouterEnum.home);
+      }
+    } catch (error) {
       alert("Wystąpił błąd rejestracji. Spróbuj ponownie.");
     }
   };
@@ -100,6 +102,7 @@ const Register = () => {
               id="email"
               className="register__input"
               placeholder="xyz@mail.com"
+              autoComplete="username"
             />
             {errors.email && touched.email ? (
               <div className="register__error">{errors.email}</div>
@@ -113,6 +116,7 @@ const Register = () => {
               id="password"
               className="register__input"
               placeholder="********"
+              autoComplete="new-password"
             />
             {errors.password && touched.password ? (
               <div className="register__error">{errors.password}</div>

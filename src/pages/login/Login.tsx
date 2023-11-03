@@ -37,11 +37,13 @@ const Login = () => {
   };
 
   const handleLogin = async (values: UserLogin) => {
-    const result = await authService.login(values);
-    if (result) {
-      toogleLoggedState(true);
-      navigate(RouterEnum.home);
-    } else {
+    try {
+      const result = await authService.login(values);
+      if (result) {
+        toogleLoggedState(true);
+        navigate(RouterEnum.home);
+      }
+    } catch (error) {
       alert("Wystąpił błąd logowania. Spróbuj ponownie.");
     }
   };
@@ -70,6 +72,7 @@ const Login = () => {
               id="email"
               className="login__input"
               placeholder="xyz@mail.com"
+              autoComplete="username"
             />
             {errors.email && touched.email ? (
               <div className="login__error">{errors.email}</div>
@@ -83,6 +86,7 @@ const Login = () => {
               id="password"
               className="login__input"
               placeholder="********"
+              autoComplete="current-password"
             />
             {errors.password && touched.password ? (
               <div className="login__error">{errors.password}</div>

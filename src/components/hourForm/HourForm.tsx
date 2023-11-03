@@ -7,7 +7,6 @@ const HourForm = (props: any) => {
   const handleSetHours = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setSelectedHour(e.target.name);
-      console.log(e.target.name);
     } else {
       setSelectedHour("");
     }

@@ -17,8 +17,6 @@ const Appointments = () => {
     document.title = "Moje wizyty | Wirtulna przychodnia";
     checkUserRole();
     getAppointments();
-
-    console.log("test");
   }, [isDoctor]);
 
   const { isUserLogged } = useContext(UserContext);

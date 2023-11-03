@@ -16,7 +16,6 @@ const DoctorForm = (props: any) => {
   }, [selectedDoctor]);
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    // console.log(event.target.value);
     setSelectedDoctor(event.target.value);
   };
 
@@ -25,7 +24,7 @@ const DoctorForm = (props: any) => {
       const doctors = await databaseService.getdoctors();
       setDoctors(doctors);
     } catch (error) {
-      console.error(error);
+      alert("Wystąpił błąd. Spróbuj ponownie później.");
     }
   };
 

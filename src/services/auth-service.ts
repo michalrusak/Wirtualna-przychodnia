@@ -12,16 +12,15 @@ import firebaseApp, { db } from "../config/firebase-config";
 
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-import { User, UserLogin, UserRegister } from "../models/user.model";
+import { UserLogin, UserRegister } from "../models/user.model";
 
 class AuthService {
-  auth = getAuth(firebaseApp);
-  googleProvider = new GoogleAuthProvider();
+  private auth = getAuth(firebaseApp);
+  private googleProvider = new GoogleAuthProvider();
 
   async isDoctor() {
     try {
-      const user = await this.getUser();
-      const uid = user.uid;
+      const uid = this.auth?.currentUser?.uid;
       const admins = collection(db, "admins");
 
       const q = query(admins, where("uid", "==", uid));
@@ -36,22 +35,13 @@ class AuthService {
         return false;
       }
     } catch (error) {
-      console.error(error);
-      return false;
+      throw error;
     }
   }
 
-  getUser(): Promise<User> {
-    return new Promise((resolve, reject) => {
-      onAuthStateChanged(this.auth, (user) => {
-        const isUserLogged = {
-          uid: user?.uid ? user?.uid : "",
-          displayName: user?.displayName ? user?.displayName : "",
-          phoneNumber: user?.phoneNumber ? user?.phoneNumber : "",
-        };
-        resolve(isUserLogged);
-      });
-    });
+  getName(): string {
+    const name = this.auth?.currentUser?.displayName;
+    return name ? name : "";
   }
 
   checkUserLogged() {
@@ -66,9 +56,8 @@ class AuthService {
   async signInWithGoogle() {
     try {
       await signInWithPopup(this.auth, this.googleProvider);
-      console.log("zalogowano google poprawnie");
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -81,8 +70,7 @@ class AuthService {
       );
       return true;
     } catch (error) {
-      console.error(error);
-      return false;
+      throw error;
     }
   }
 
@@ -103,8 +91,7 @@ class AuthService {
 
       return true;
     } catch (error) {
-      console.error(error);
-      return false;
+      throw error;
     }
   }
 
@@ -112,9 +99,8 @@ class AuthService {
     try {
       await signOut(this.auth);
       return true;
-    } catch (err) {
-      console.error(err);
-      return false;
+    } catch (error) {
+      throw error;
     }
   }
 }
