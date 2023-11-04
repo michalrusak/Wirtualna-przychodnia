@@ -1,0 +1,8 @@
+@import "../../styles//main.scss";
+
+.sign-in-google {
+  margin: 15px 0;
+  &__button {
+    @include button($color-font-black, $color-font-white);
+  }
+}

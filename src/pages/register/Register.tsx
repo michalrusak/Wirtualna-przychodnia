@@ -7,6 +7,7 @@ import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { RouterEnum } from "../../enums/RouterEnum";
+import SignInGoogle from "../../components/signInGoogle/SignInGoogle";
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -136,6 +137,7 @@ const Register = () => {
           </Form>
         )}
       </Formik>
+      <SignInGoogle />
     </div>
   );
 };

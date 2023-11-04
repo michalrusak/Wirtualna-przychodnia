@@ -20,7 +20,7 @@ class AuthService {
   private googleProvider = new GoogleAuthProvider();
   private admins = collection(db, DatabaseEnum.admins);
 
-  async isDoctor() {
+  async isDoctor(): Promise<Boolean> {
     try {
       const uid = this.auth?.currentUser?.uid;
 
@@ -45,7 +45,7 @@ class AuthService {
     return name ? name : "";
   }
 
-  checkUserLogged() {
+  checkUserLogged(): Promise<Boolean> {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(this.auth, (user) => {
         const isUserLogged = !!user;
@@ -54,15 +54,16 @@ class AuthService {
     });
   }
 
-  async signInWithGoogle() {
+  async signInWithGoogle(): Promise<Boolean> {
     try {
       await signInWithPopup(this.auth, this.googleProvider);
+      return true;
     } catch (error) {
       throw error;
     }
   }
 
-  async login(values: UserLogin) {
+  async login(values: UserLogin): Promise<Boolean> {
     try {
       await signInWithEmailAndPassword(
         this.auth,
@@ -75,7 +76,7 @@ class AuthService {
     }
   }
 
-  async register(values: UserRegister) {
+  async register(values: UserRegister): Promise<Boolean> {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         this.auth,
@@ -96,7 +97,7 @@ class AuthService {
     }
   }
 
-  async logout() {
+  async logout(): Promise<Boolean> {
     try {
       await signOut(this.auth);
       return true;

@@ -7,6 +7,7 @@ import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { RouterEnum } from "../../enums/RouterEnum";
+import SignInGoogle from "../../components/signInGoogle/SignInGoogle";
 
 const LoginSchema = () =>
   yup.object().shape({
@@ -104,6 +105,7 @@ const Login = () => {
           </Form>
         )}
       </Formik>
+      <SignInGoogle />
     </div>
   );
 };
