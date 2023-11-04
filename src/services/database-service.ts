@@ -64,12 +64,14 @@ class DatabaseService {
 
       const querySnap = await getDocs(q);
 
-      let documentRef: string = "";
-      querySnap.forEach((doc) => {
-        documentRef = doc.ref.id;
-      });
+      const { isAvailable } = querySnap.docs[0].data();
 
-      const appointmentRef = doc(this.appointments, documentRef);
+      if (!isAvailable) {
+        return false;
+      }
+      const { id } = querySnap.docs[0];
+
+      const appointmentRef = doc(this.appointments, id);
 
       await updateDoc(appointmentRef, {
         isAvailable: false,
@@ -189,6 +191,87 @@ class DatabaseService {
       });
 
       return list;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAppointmentsForDoctor(fullDate: Date): Promise<String[]> {
+    try {
+      const tabExample: String[] = [
+        "8:00",
+        "8:30",
+        "9:00",
+        "9:30",
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30",
+        "20:00",
+      ];
+
+      const q = query(
+        this.appointments,
+        where("doctorUid", "==", this.auth?.currentUser?.uid),
+        where(
+          "date",
+          ">=",
+          new Date(
+            fullDate.getFullYear(),
+            fullDate.getMonth(),
+            fullDate.getDate(),
+            0,
+            0
+          )
+        ),
+        where(
+          "date",
+          "<",
+          new Date(
+            fullDate.getFullYear(),
+            fullDate.getMonth(),
+            fullDate.getDate(),
+            23,
+            59
+          )
+        )
+      );
+
+      const res = await getDocs(q);
+
+      res.forEach((elem) => {
+        const { date } = elem.data();
+
+        const hour = new Date(date.seconds * 1000).getHours();
+        let minutes = new Date(date.seconds * 1000).getMinutes().toString();
+
+        if (minutes === "0") {
+          minutes = "0" + minutes;
+        }
+
+        const index = tabExample.indexOf(`${hour}:${minutes}`);
+        if (index > -1) {
+          tabExample.splice(index, 1);
+        }
+      });
+
+      return tabExample;
     } catch (error) {
       throw error;
     }
