@@ -36,19 +36,15 @@ const NewAppointment = () => {
         const res = await databaseService.setEmptyAppointement(fullDate);
         if (res) {
           navigate(RouterEnum.appointments);
-        } else {
-          alert("Wystąpił błąd. Spóbuj ponownie później.");
         }
       } else {
         const res = await databaseService.reserveAppointment(fullDate, doctor);
         if (res) {
           navigate(RouterEnum.appointments);
-        } else {
-          alert("Wystąpił błąd. Spóbuj ponownie później.");
         }
       }
     } catch (error) {
-      console.error(error);
+      alert("Wystąpił błąd. Spóbuj ponownie później.");
     }
   };
 

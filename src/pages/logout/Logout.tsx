@@ -22,16 +22,14 @@ const Logout = () => {
       const logoutResult = await authService.logout();
       if (logoutResult) {
         setMessage("Wylogowano poprawnie!");
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        navigate(RouterEnum.home);
         toogleLoggedState(false);
-        setTimeout(() => {
-          navigate(RouterEnum.home);
-        }, 3000);
       }
     } catch (error) {
       setMessage("Coś poszło nie tak!");
-      setTimeout(() => {
-        navigate(RouterEnum.home);
-      }, 6000);
+      await new Promise((resolve) => setTimeout(resolve, 6000));
+      navigate(RouterEnum.home);
     }
   };
 

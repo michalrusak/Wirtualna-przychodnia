@@ -4,6 +4,7 @@
   @extend .flex-center;
   @extend .flex-center-page;
   gap: 10px;
+  margin: 10px 0;
   overflow: hidden;
 
   &__title {
