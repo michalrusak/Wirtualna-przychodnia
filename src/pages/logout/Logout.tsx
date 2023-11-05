@@ -35,7 +35,7 @@ const Logout = () => {
 
   return (
     <div className="logout">
-      <h1 className="logout__title">{message}</h1>
+      <h2 className="logout__title">{message}</h2>
       <p className="logout__text">
         Za chwilę zostaniesz przeniesiony na stronę główną!
       </p>

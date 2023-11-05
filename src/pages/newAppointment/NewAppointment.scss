@@ -4,8 +4,7 @@
   width: 100vw;
   max-width: 100%;
   &__title {
-    text-align: center;
-    margin: 10px 0;
+    @extend .title-page;
   }
   &__dropdown-container {
     @extend .flex-center;

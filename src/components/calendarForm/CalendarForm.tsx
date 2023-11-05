@@ -189,14 +189,13 @@ const CalendarForm = (props: any) => {
   return (
     <div className="calendar">
       <h3 className="calendar__title">Wybierz dzień:</h3>
-      <div className="calendar__current-date">
-        {`${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
-      </div>
-
       <div className="calendar__buttons">
         <button className="calendar__button" onClick={prevMonth}>
           &#8678;
         </button>
+        <div className="calendar__current-date">
+          {`${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
+        </div>
         <button className="calendar__button" onClick={nextMonth}>
           &#8680;
         </button>

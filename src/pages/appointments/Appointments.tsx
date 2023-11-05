@@ -56,6 +56,7 @@ const Appointments = () => {
 
   return (
     <div className="appointments">
+      <h2 className="appointments__title">Lista wizyt</h2>
       <AppointmentsList list={appointments} />
     </div>
   );

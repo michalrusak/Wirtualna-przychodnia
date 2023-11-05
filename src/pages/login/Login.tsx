@@ -51,7 +51,7 @@ const Login = () => {
 
   return (
     <div className="login">
-      <h1 className="login__title">Zaloguj się</h1>
+      <h2 className="login__title">Zaloguj się</h2>
       <Formik
         initialValues={{
           email: "",

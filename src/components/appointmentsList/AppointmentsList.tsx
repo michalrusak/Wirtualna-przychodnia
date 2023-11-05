@@ -15,7 +15,6 @@ const AppointmentsList = (props: any) => {
 
   return (
     <div className="appointments-list">
-      <h2 className="appointments-list__title">Lista wizyt</h2>
       <div className="appointments-list__list-header">
         <div>Data</div>
         <div>Godzina</div>

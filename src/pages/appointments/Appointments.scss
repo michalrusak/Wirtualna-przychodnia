@@ -1,4 +1,8 @@
 @import "../../styles/main.scss";
 
-.appointment {
+.appointments {
+  &__title {
+    @extend .title-page;
+    color: $color-font-black;
+  }
 }

@@ -8,7 +8,7 @@
   overflow: hidden;
 
   &__title {
-    color: $color-font-black;
+    @extend .title-page;
   }
 
   &__form {

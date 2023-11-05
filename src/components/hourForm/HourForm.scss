@@ -23,7 +23,9 @@
     &:hover {
       background-color: $hover-color;
     }
-    &--active {
+    &--active,
+    &--active:hover {
+      color: $color-font-white;
       background-color: $active-color;
     }
   }

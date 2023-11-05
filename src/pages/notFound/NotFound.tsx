@@ -8,7 +8,7 @@ const NotFound = () => {
   });
   return (
     <div className="not-found">
-      <h1 className="not-found__title">UPS...</h1>
+      <h2 className="not-found__title">UPS...</h2>
       <div className="not-found__description">
         Wygląda na to, że ta strona nie istnieje
       </div>
