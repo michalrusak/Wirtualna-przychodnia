@@ -1,7 +1,14 @@
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import authService from "../../services/auth-service";
+import databaseService from "../../services/database-service";
 import "./Appointment.scss";
 
 const Appointment = (props: any) => {
+  const navigate = useNavigate();
+  const [isDoctorMode, setIsDoctorMode] = useState(false);
+
   const months = [
     "Styczeń",
     "Luty",
@@ -16,6 +23,38 @@ const Appointment = (props: any) => {
     "Listopad",
     "Grudzień",
   ];
+
+  useEffect(() => {
+    checkUserRole();
+  });
+
+  const { isUserLogged } = useContext(UserContext);
+
+  const checkUserRole = async () => {
+    if (isUserLogged) {
+      const doctor = await authService.isDoctor();
+      const isDoctorMode = doctor ? true : false;
+      setIsDoctorMode(isDoctorMode);
+    }
+  };
+
+  const handleCancelAppointment = async () => {
+    try {
+      if (isDoctorMode) {
+        const res = await databaseService.cancelDoctorAppoitment(props.date);
+        if (res) {
+          navigate(0);
+        }
+      } else {
+        const res = await databaseService.cancelPatientAppoitment(props.date);
+        if (res) {
+          navigate(0);
+        }
+      }
+    } catch (error) {
+      alert("Wystąpił błąd. Spóbuj ponownie później.");
+    }
+  };
 
   return (
     <div
@@ -35,6 +74,14 @@ const Appointment = (props: any) => {
         }`}
       </div>
       <div className="appointment__name">{props.name}</div>
+      <div className="appointment__cancel">
+        <button
+          onClick={handleCancelAppointment}
+          className="appointment__button"
+        >
+          Anuluj wizytę
+        </button>
+      </div>
     </div>
   );
 };

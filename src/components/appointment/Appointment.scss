@@ -3,6 +3,7 @@
 .appointment {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-direction: row;
   width: 60vw;
   min-width: 750px;
@@ -19,8 +20,14 @@
   &__hour,
   &__name {
     font-size: 1.6rem;
-    flex-basis: 33%;
+    flex-basis: 25%;
     text-align: center;
+  }
+
+  &__button {
+    @include button($color-font-white, $button-bgc2);
+    font-size: 1.3rem;
+    flex-basis: 25%;
   }
 }
 
@@ -29,6 +36,7 @@
     flex-direction: column;
     width: 500px;
     min-width: 500px;
+    gap: 10px;
   }
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {

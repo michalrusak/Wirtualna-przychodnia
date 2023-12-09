@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Appointment from "../appointment/Appointment";
 import "./AppointmentsList.scss";
 
@@ -19,6 +18,7 @@ const AppointmentsList = (props: any) => {
         <div>Data</div>
         <div>Godzina</div>
         <div>Osoba</div>
+        <div>Anuluj</div>
       </div>
       <div className="appointments-list__list-container">
         {props.list.length === 0 ? "Brak wizyt" : renderList}

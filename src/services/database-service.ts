@@ -2,6 +2,7 @@ import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   orderBy,
@@ -272,6 +273,51 @@ class DatabaseService {
       });
 
       return tabExample;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async cancelPatientAppoitment(date: Date) {
+    try {
+      const q = query(
+        this.appointments,
+        where("date", "==", date),
+        where("patientUid", "==", this.auth?.currentUser?.uid)
+      );
+
+      const querySnap = await getDocs(q);
+
+      const { id } = querySnap.docs[0];
+
+      const appointmentRef = doc(this.appointments, id);
+
+      await updateDoc(appointmentRef, {
+        isAvailable: true,
+        patientUid: "",
+        patientName: "",
+      });
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async cancelDoctorAppoitment(date: Date) {
+    try {
+      const q = query(
+        this.appointments,
+        where("date", "==", date),
+        where("doctorUid", "==", this.auth?.currentUser?.uid)
+      );
+
+      const querySnap = await getDocs(q);
+
+      const { id } = querySnap.docs[0];
+
+      const appointmentRef = doc(this.appointments, id);
+
+      await deleteDoc(appointmentRef);
+      return true;
     } catch (error) {
       throw error;
     }

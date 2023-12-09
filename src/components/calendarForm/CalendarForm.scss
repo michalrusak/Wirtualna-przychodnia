@@ -46,6 +46,7 @@
     @extend .flex-center;
     width: calc($width-calendar / 7);
     height: $height-row;
+    font-weight: 900;
     &--current {
       cursor: pointer;
       font-weight: bold;
@@ -57,6 +58,7 @@
     &--next,
     &--disabled {
       color: $disabled-color;
+      font-weight: 200;
       cursor: not-allowed;
     }
 
@@ -69,6 +71,9 @@
       color: $today-color;
       border: 1px solid $today-color;
       border-radius: 4px;
+    }
+    &--sunday {
+      color: $sunday-color;
     }
   }
 }

@@ -10,6 +10,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const hideNavbar = () => {
+    setIsOpen(false);
+  };
+
   const { isUserLogged, displayName } = useContext(UserContext);
 
   return (
@@ -74,7 +78,10 @@ const Navbar = () => {
           )}
         </ul>
       </nav>
-
+      <div
+        className={`backdrop ${isOpen ? "backdrop--active" : ""}`}
+        onClick={hideNavbar}
+      ></div>
       <nav className={`navbar-mobile ${isOpen ? "navbar-mobile--active" : ""}`}>
         <ul className="navbar-mobile__list">
           <li className="navbar-mobile__list-item">

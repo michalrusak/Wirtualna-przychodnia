@@ -140,6 +140,16 @@ const CalendarForm = (props: any) => {
               : ""
           } 
           ${disabled() ? "calendar__day--disabled" : ""}
+          ${
+            new Date(
+              currentDate.getFullYear(),
+              currentDate.getMonth(),
+              i
+            ).getDay() === 0
+              ? "calendar__day--sunday"
+              : ""
+          }
+           
           `}
         >
           {i}
