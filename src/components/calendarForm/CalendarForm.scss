@@ -39,12 +39,12 @@
   &__dayOfWeek {
     @extend .flex-center;
     text-transform: uppercase;
-    width: calc($width-calendar / 7);
+    width: floor(calc($width-calendar / 7));
     height: $height-row;
   }
   &__day {
     @extend .flex-center;
-    width: calc($width-calendar / 7);
+    width: floor(calc($width-calendar / 7));
     height: $height-row;
     font-weight: 900;
     &--current {
@@ -53,13 +53,6 @@
       &:hover {
         background-color: $hover-color;
       }
-    }
-    &--prev,
-    &--next,
-    &--disabled {
-      color: $disabled-color;
-      font-weight: 200;
-      cursor: not-allowed;
     }
 
     &--active,
@@ -72,6 +65,14 @@
       border: 1px solid $today-color;
       border-radius: 4px;
     }
+
+    &--prev,
+    &--next,
+    &--disabled {
+      color: $disabled-color;
+      font-weight: 200;
+      cursor: not-allowed;
+    }
     &--sunday {
       color: $sunday-color;
     }
@@ -81,11 +82,11 @@
 @media (max-width: map-get($grid-breakpoints, md)) {
   .calendar {
     $width-calendar: 380px;
-    width: calc($width-calendar);
+    width: $width-calendar;
 
     &__dayOfWeek,
     &__day {
-      width: calc($width-calendar / 7);
+      width: floor(calc($width-calendar / 7));
     }
   }
 }
